@@ -30,6 +30,16 @@ export default function CompassScreen({ navigation }) {
     const askForPermission = async () => {
       // TODO a) Ask for location permission
 
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      console.log(location);
+      setCoords(location.coords);
+
       // TODO b) Get One-time position and save the coordinates
 
       //* (GIVEN): Heading watcher (0..360 degrees)
